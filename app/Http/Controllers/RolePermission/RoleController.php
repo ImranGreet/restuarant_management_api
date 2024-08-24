@@ -30,4 +30,15 @@ class RoleController extends Controller
             'role' => $role,
         ], 201);
     }
+
+    public function getRoles()
+    {
+        $roles = Role::all();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Roles retrived successfully!',
+            'roles' => $roles,
+        ]);
+    }
 }

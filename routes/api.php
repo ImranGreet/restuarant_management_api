@@ -13,6 +13,7 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
 
 Route::controller(RoleController::class)->group(function () {
     Route::post('/create_role', 'createRole');
+    Route::get('/get_roles','getRoles');
 });
 
 Route::controller(PermissionController::class)->group(function () {
