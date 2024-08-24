@@ -22,4 +22,13 @@ class PermissionController extends Controller
             'permission' => $permission,
         ], 201);
     }
+
+    public function getPermissions(){
+        $permissions = Permission::all();
+        return response()->json([
+            'success' => true,
+            'message' => 'Permission retrived successfully!',
+            'permission' =>$permissions,
+        ],201);
+    }
 }

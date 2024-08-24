@@ -17,4 +17,5 @@ Route::controller(RoleController::class)->group(function () {
 
 Route::controller(PermissionController::class)->group(function () {
     Route::post('/create_permission', 'createPermission');
+    Route::get('/get_permissions','getPermissions');
 });

@@ -13,10 +13,16 @@ class RoleController extends Controller
 
         $validated = $request->validate([
             'name' => 'required|string|unique:roles,name',
+            'permissions' => 'array',
+            'permissions.*' => 'string|exists:permissions,name',
         ]);
 
         // Create a new role
         $role = Role::create(['name' => $validated['name']]);
+
+        if (!empty($validated['permissions'])) {
+            $role->syncPermissions($validated['permissions']);
+        }
 
         return response()->json([
             'success' => true,
