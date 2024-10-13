@@ -87,7 +87,7 @@ class OrderController extends Controller
     {
         try {
 
-            $orders = Order::paginate(10);
+            $orders = Order::paginate(25);
 
             if ($orders->isEmpty()) {
                 return response()->json([
@@ -122,7 +122,7 @@ class OrderController extends Controller
 
 
 
-            $orders = Order::where('order_type', $type)->paginate(10);
+            $orders = Order::where('order_type', $type)->paginate(25);
 
 
             if ($orders->isEmpty()) {
