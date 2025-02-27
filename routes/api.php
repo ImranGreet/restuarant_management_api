@@ -16,22 +16,25 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
     return $request->user();
 });
 
+// Define routes for the RoleController
 Route::controller(RoleController::class)->group(function () {
     Route::post('/create_role', 'createRole');
     Route::get('/get_roles', 'getRoles');
 });
-
+// Define routes for the PermissionController
 Route::controller(PermissionController::class)->group(function () {
     Route::post('/create_permission', 'createPermission');
     Route::get('/get_permissions', 'getPermissions');
 });
-/*transaction*/
+
+// Define routes for the TransactionController
 Route::controller(TransactionController::class)->group(function () {
     Route::get('/our_transaction', 'retrieveTransactions');
     Route::get('/our_transaction_by_date', 'retrieveTransactionsByDateRange');
 });
 
-/*order*/
+
+// Define routes for the OrderController
 Route::controller(OrderController::class)->group(function () {
     Route::post('/order/create_order', 'createOrder');
     Route::put('/order/update_order/{id}', 'updateOrder');
@@ -39,7 +42,8 @@ Route::controller(OrderController::class)->group(function () {
     Route::get('orders/{order_type}', 'retrieveOrderByType');
     Route::delete('/order/deleteOrder/{id}', 'deleteOrder');
 });
-/*expenses controller*/
+
+// Define routes for the ExpenseController
 Route::controller(ExpenseController::class)->group(function () {
     Route::get('/our_expenses', 'retrieveExpenses');
     Route::get('/createExpense', 'createExpense');
@@ -49,7 +53,7 @@ Route::controller(ExpenseController::class)->group(function () {
 });
 
 
-/*stock controller*/
+// Define routes for the StockController
 Route::controller(StockController::class)->group(function () {
     // Retrieve all stocks
     Route::get('/our_stocks', 'retrieveStocks');
@@ -79,11 +83,14 @@ Route::controller(CategoryController::class)->group(function () {
     Route::delete('/categories/{id}', 'deleteCategory');
 });
 
+// Define routes for the ProductController
 Route::controller(ProductController::class)->group(function () {
     Route::get('/products', 'retrieveProducts');
-    Route::get('/products/{id}', 'retrieveProductById');
+    Route::get('products/{category}', 'retrieveProductsByCategory')->where('category', '[a-zA-Z]+');
+    Route::get('/products/{id}', 'retrieveProductById')->where('id', '[0-9]+');
     Route::post('/products', 'createProduct');
-    Route::get('/products/{id}/edit', 'editProduct');
-    Route::put('/products/{id}', 'updateProduct');
-    Route::delete('/products/{id}', 'deleteProduct');
+    Route::get('/products/{id}/edit', 'editProduct')->where('id', '[0-9]+');
+    Route::put('/products/{id}', 'updateProduct')->where('id', '[0-9]+');
+    Route::delete('/products/{id}', 'deleteProduct')->where('id', '[0-9]+');
 });
+

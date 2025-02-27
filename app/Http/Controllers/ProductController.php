@@ -32,6 +32,30 @@ class ProductController extends Controller
         }
     }
 
+    //function to retrieve all products according to the category with pagination
+    public function retrieveProductsByCategory($category)
+    {
+        try {
+            $products = Product::where('category', $category)->paginate(10);
+
+            if ($products->isEmpty()) {
+                return response()->json([
+                    'message' => 'No products found',
+                    'products' => []
+                ], 404);
+            }
+
+            return response()->json([
+                'message' => 'Products retrieved successfully',
+                'products' => $products
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'An error occurred while retrieving products',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
     // Function to retrieve a single product by ID
     public function retrieveProductById($id)
     {

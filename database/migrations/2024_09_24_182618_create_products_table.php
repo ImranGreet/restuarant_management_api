@@ -18,6 +18,7 @@ return new class extends Migration
             $table->integer('price');
             $table->boolean('status')->default(1);
             $table->string('description');
+            $table->string('product_image')->nullable();
             $table->float('rating')->nullable();
             $table->integer('discount')->default(0);
             $table->timestamps();
