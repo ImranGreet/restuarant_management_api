@@ -83,6 +83,8 @@ Route::controller(CategoryController::class)->group(function () {
     Route::delete('/categories/{id}', 'deleteCategory');
 });
 
+
+
 // Define routes for the ProductController
 Route::controller(ProductController::class)->group(function () {
     Route::get('/products', 'retrieveProducts');
@@ -90,7 +92,8 @@ Route::controller(ProductController::class)->group(function () {
     Route::get('/products/{id}', 'retrieveProductById')->where('id', '[0-9]+');
     Route::post('/products', 'createProduct');
     Route::get('/products/{id}/edit', 'editProduct')->where('id', '[0-9]+');
-    Route::put('/products/{id}', 'updateProduct')->where('id', '[0-9]+');
+    Route::put('/products/{id}/editproduct', 'updateProduct')->where('id', '[0-9]+');
+    Route::put('/products/{id}/updateStatus', 'updateProductStatus')->where('id', '[0-9]+');
     Route::delete('/products/{id}', 'deleteProduct')->where('id', '[0-9]+');
 });
 
