@@ -9,11 +9,35 @@ use App\Http\Controllers\RolePermission\RoleController;
 use App\Http\Controllers\StockController;
 use App\Http\Controllers\StuffController;
 use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\API\AuthController;
+use App\Http\Controllers\API\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
     return $request->user();
+});
+
+// Auth Routes
+Route::group(['prefix' => 'auth', 'controller' => AuthController::class], function () {
+    Route::post('/login', 'login');
+    
+    // Protected routes
+    Route::group(['middleware' => 'auth:api'], function () {
+        Route::post('/logout', 'logout');
+        Route::post('/refresh', 'refresh');
+        Route::get('/profile', 'profile');
+    });
+});
+
+// User Management Routes
+Route::group(['middleware' => 'auth:api', 'controller' => UserController::class], function () {
+    Route::get('/users', 'index');
+    Route::post('/users', 'store');
+    Route::get('/users/{id}', 'show');
+    Route::put('/users/{id}', 'update');
+    Route::put('/users/{id}/status', 'updateStatus');
+    Route::delete('/users/{id}', 'destroy');
 });
 
 // Define routes for the RoleController
