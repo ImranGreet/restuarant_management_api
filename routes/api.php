@@ -71,6 +71,7 @@ Route::controller(StuffController::class)->group(function () {
     Route::get('/our_stuffs/{id}/edit', 'editStuff');
     Route::put('/our_stuffs/{id}', 'updateStuff');
     Route::delete('/our_stuffs/{id}', 'deleteStuff');
+    Route::delete('/our_stuffs', 'deleteMultipleStuffs');
 });
 
 // Define routes for the CategoryController

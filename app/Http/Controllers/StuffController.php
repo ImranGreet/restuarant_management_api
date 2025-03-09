@@ -8,10 +8,18 @@ use Illuminate\Http\Request;
 class StuffController extends Controller
 {
     // Function to retrieve all stuff items with pagination
-    public function retrieveStuffs()
+    public function retrieveStuffs(Request $request)
     {
         try {
-            $stuffs = Stuff::paginate(10);
+            $perPage = $request->query('per_page', 20);
+            $allowedPerPage = [10, 20, 30, 40, 50];
+
+            if (!in_array($perPage, $allowedPerPage)) {
+                return response()->json([
+                    'message' => 'Invalid per_page value. Allowed values are 10, 20, 30, 40, 50.',
+                ], 400);
+            }
+            $stuffs = Stuff::paginate($perPage);
 
             if ($stuffs->isEmpty()) {
                 return response()->json([
@@ -160,4 +168,32 @@ class StuffController extends Controller
             ], 500);
         }
     }
+
+    // Function to delete multiple stuff items
+public function deleteMultipleStuffs(Request $request)
+{
+    try {
+        // Validate the request to ensure 'ids' is provided and is an array
+        $request->validate([
+            'ids' => 'required|array',
+            'ids.*' => 'integer|exists:stuffs,id'
+        ]);
+
+        // Retrieve the IDs from the request
+        $ids = $request->input('ids');
+
+        // Delete the specified stuff items
+        Stuff::whereIn('id', $ids)->delete();
+
+        return response()->json([
+            'message' => 'Selected stuffs deleted successfully'
+        ], 200);
+    } catch (\Exception $e) {
+        return response()->json([
+            'message' => 'An error occurred while deleting stuffs',
+            'error' => $e->getMessage()
+        ], 500);
+    }
+}
+
 }
